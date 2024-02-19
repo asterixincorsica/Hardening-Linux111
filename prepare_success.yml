@@ -1,0 +1,14 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Gather system information
+      setup:
+
+    - name: Store sensitive information in Vault
+      set_fact:
+        firewall_rules: "{{ lookup('vault', 'firewall_rules') }}"
+
+    - name: Set fact for success
+      set_fact:
+        prepare_success: true
