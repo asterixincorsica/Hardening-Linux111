@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: x
   become: true
   tasks:
     - name: Apply firewall rules
