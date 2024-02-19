@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Log error and pause workflow
+      debug:
+        msg: "Failed to gather system information: {{ error_msg }}"
+
+    - name: Set fact for failure
+      set_fact:
+        prepare_failure: true
