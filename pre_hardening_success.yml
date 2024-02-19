@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        state: latest
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Create backup
+      archive:
+        path: /etc
+        dest: /backups/etc_{{ ansible_date_time.date }}.tar.gz
+
+    - name: Create temporary user
+      user:
+        name: temp_user
+        password: "{{ lookup('password', min_length=12) }}"
+        become: false
+
+    - name: Set fact for success
+      set_fact:
+        pre_hardening_success: true
