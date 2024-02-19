@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Log error and pause workflow
+      debug:
+        msg: "Failed to update kernel security parameters: {{ error_msg }}"
+
+    - name: Set fact for failure
+      set_fact:
+        kernel_security_failure: true
