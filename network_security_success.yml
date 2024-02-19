@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Apply firewall rules
+      firewalld_rule:
+        name: ssh
+        port: 22
+        state: enabled
+        permanent: yes
+
+    - name: Disable unused interfaces
+      netdevice:
+        name: "{{ item }}"
+        state: down
+      with_items:
+        - eth1
+        - eth2
+
+    - name: Disable ICMP echo replies (optional)
+      sysctl:
+        name: net.ipv4.icmp_echo_ignore_all
+        value: 1
+        state: present
+        sysctl_reboot: yes
+
+    - name: Set fact for success
+      set_fact:
+        network_security_success: true
