@@ -1,0 +1,19 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Set SELinux to enforcing mode (if applicable)
+      selinux:
+        state: enforcing
+
+    - name: Manage targeted policies (optional)
+      semanage:
+        policy: "{{ item }}"
+        state: present
+      with_items:
+        - httpd_t
+        - mysqld_t
+
+    - name: Set fact for success
+      set_fact:
+        selinux_success: true
