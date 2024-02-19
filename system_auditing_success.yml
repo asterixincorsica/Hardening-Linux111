@@ -1,0 +1,21 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Enable and configure Auditd
+      auditd:
+        state: enabled
+        rules: ["-a exit,always -F path=/etc -F auid>=1000 -f 2"]
+        log_file: /var/log/audit/audit.log
+        max_log_file: 8
+        log_format: ENRICHED
+
+    - name: Enable and configure systemd-audit (optional)
+      systemd_audit:
+        state: enabled
+        priority: 5
+        logfile: /var/log/audit/audit.log
+
+    - name: Set fact for success
+      set_fact:
+        system_auditing_success: true
