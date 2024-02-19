@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Log error and pause workflow
+      debug:
+        msg: "Failed to complete pre-hardening tasks: {{ error_msg }}"
+
+    - name: Set fact for failure
+      set_fact:
+        pre_hardening_failure: true
