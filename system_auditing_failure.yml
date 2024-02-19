@@ -1,0 +1,11 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Log error and pause workflow
+      debug:
+        msg: "Failed to enable system auditing: {{ error_msg }}"
+
+    - name: Set fact for failure
+      set_fact:
+        system_auditing_failure: true
