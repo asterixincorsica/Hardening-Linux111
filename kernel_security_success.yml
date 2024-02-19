@@ -1,0 +1,19 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Update sysctl parameters
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+        sysctl_reboot: yes
+      with_items:
+        - name: net.ipv4.icmp_echo_ignore_all
+          value: 1
+        - name: fs.suid_dumpable
+          value: 0
+
+    - name: Set fact for success
+      set_fact:
+        kernel_security_success: true
