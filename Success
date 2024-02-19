@@ -1,0 +1,26 @@
+---
+- hosts: x
+  become: true
+  tasks:
+    - name: Announce successful hardening completion
+      debug:
+        msg: "OS hardening completed successfully!"
+
+    - name: (Optional) Send notification email to admins
+      mail:
+        host: "{{ lookup('host', 'smtp_server') }}"
+        port: 25
+        username: "{{ lookup('vault', 'smtp_username') }}"
+        password: "{{ lookup('vault', 'smtp_password') }}"
+        sender: "Ansible Playbooks"
+        recipients: ["admin@example.com"]
+        subject: "OS Hardening Successful - {{ inventory_hostname }}"
+        body: |
+          The OS hardening process on {{ inventory_hostname }} has been completed successfully.
+
+    - name: (Optional) Reboot the system (if necessary)
+      reboot:
+
+    - name: Set fact for successful hardening
+      set_fact:
+        hardening_success: true
