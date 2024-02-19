@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Log error and pause workflow
+      debug:
+        msg: "Failed to configure network security: {{ error_msg }}"
+
+    - name: Set fact for failure
+      set_fact:
+        network_security_failure: true
